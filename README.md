@@ -59,6 +59,7 @@ make
 
 - gcc
 - libc
+- gzip (for compressing man-page)
 
 ## Installing
 
@@ -66,13 +67,15 @@ To install the program, run:
 
 ```sh
 make install
+make install-man
 ```
 
-This installs cpuwatch to `/usr/bin` by default, to change the install
-directory, run:
+This installs cpuwatch to `/usr/bin` and the manual page to `/usr/share/man` by
+default, to change the install directories, run:
 
 ```sh
-make install prefix=/path/to/install
+make install binprefix=/path/to/install
+make install-man manprefix=/path/to/man
 ```
 
 ### Runtime Dependencies

@@ -1,0 +1,63 @@
+.TH CPUWATCH 1 2022-08-16
+.SH NAME
+cpuwatch - a program to report CPU usage
+.SH SYNOPSIS
+.B cpuwatch
+<\fI\,--output=FILE\/\fR>
+<\fI\,--cpus=N\/\fR>
+[\fI\,options...\/\fR]
+.SH DESCRIPTION
+Monitor
+.I /proc/uptime
+to determine the current CPU utilisation, and write it to FILE.
+
+.SH OPTIONS
+Arguments required for long options are also required for their corresponding
+short options.
+
+.TP
+\fB\,-o\/\fR, \fB\,--output\/\fR=\fI\,FILE\/\fR
+Write the CPU utilisation to \fI\,FILE\/\fR. \fI\,FILE\/\fR must be a regular
+file, or be able to created.
+
+.TP
+\fB\,-c\/\fR, \fB\,--cpus\/\fR=\fI\,N\/\fR
+Assume that there are \fI\,N\/\fR CPUs in the system. This information is
+required to correctly calculate the average utilisation across all cores.
+
+.TP
+\fB\,-i\/\fR, \fB\,--interval\/\fR=\fI\,N\/\fR
+Write to the output file, and read from \fI\,/proc/uptime\/\fR every
+\fI\,N\/\fR seconds. \fI\,N\/\fR may be a decimal number such as 0.5 or 12.3.
+
+.TP
+\fB\,-n\/\fR, \fB\,--samples\/\fR=\fI\,N\/\fR
+Take a moving average of \fI\,N\/\fR samples. When paired with \fB\,-i\/\fR it
+is possible to get a `smoother' output.
+
+.TP
+\fB\,-h\/\fR, \fB\,--help\/\fR
+Write a usage statement to \fI\,stderr\/\fR.
+
+.SH NOTES
+When combining the \fB\,-i\/\fR=\fI\,X\/\fR and \fB\,-n\/\fR=\fI\,Y\/\fR
+options, it is helpful to know that the reported CPU utilisation will be the
+average over \fI\,X*Y\/\fR seconds. So it is possible to have frequent readings
+of CPU utilisation without the result being highly variable by balancing the
+two values.
+
+.SH BUGS
+When the number of CPUs is given incorrectly, the calculated utilisation will
+be inaccurate. If \fB\,-c\/\fR is given as more than the real number of CPUs,
+then the reported utilisation will be higher than the true value, but will not
+exceed 100%. If instead \fB\,-c\/\fR is given as less than the real number of
+CPUs, then the reported utilisation could be below 0%.
+
+.SH COPYRIGHT
+Copyright 2022 Jason Moore <jason@jasonmoore.xyz> License: MIT
+.br
+This is free software: you are free to change and redistribute it. There is NO
+WARRANTY, to the extent permitted by law.
+.SH SEE ALSO
+.BR procfs (5),
+.BR stderr (3)
